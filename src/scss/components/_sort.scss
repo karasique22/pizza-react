@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 .sort {
   position: relative;
@@ -8,6 +8,10 @@
 
     svg {
       margin-right: 8px;
+      transition: transform 0.3s ease;
+      &.rotated {
+        transform: rotate(180deg);
+      }
     }
 
     b {
@@ -30,7 +34,6 @@
     border-radius: 10px;
     overflow: hidden;
     padding: 10px 0;
-    width: 160px;
 
     ul {
       overflow: hidden;

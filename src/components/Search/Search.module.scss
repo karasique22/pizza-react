@@ -1,0 +1,40 @@
+.root {
+  position: relative;
+}
+
+.input {
+  border: 1px solid rgba($color: #000000, $alpha: 0.1);
+  padding: 12px 40px;
+  width: 300px;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: border 0.2s ease-in-out;
+
+  &:focus {
+    border: 1px solid rgba($color: #000000, $alpha: 0.3);
+  }
+}
+
+.icon__search,
+.icon__close {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+  transition: all 0.2s ease-in-out;
+}
+
+.icon__search {
+  left: 15px;
+}
+
+.icon__close {
+  right: 20px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+}
