@@ -9,7 +9,6 @@ const Pagination = ({ onChangePage }) => {
       className={styles.root}
       breakLabel="..."
       nextLabel=">"
-      // onPageChange={handlePageClick}
       onPageChange={(e) => onChangePage(e.selected + 1)}
       pageRangeDisplayed={4}
       pageCount={3}
