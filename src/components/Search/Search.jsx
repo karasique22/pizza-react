@@ -24,7 +24,7 @@ const Search = () => {
   const updateInput = React.useCallback(
     debounce((str) => {
       setSearchValue(str);
-    }, 800),
+    }, 300),
     [value]
   );
 

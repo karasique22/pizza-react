@@ -10,23 +10,21 @@ import Pagination from "../components/Pagination/Pagination";
 import { SearchContext } from "../App";
 
 const Home = () => {
-  const { categoryId, sort } = useSelector((state) => state.filter);
+  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
   const sortType = sort.sortProperty;
 
   const { searchValue } = React.useContext(SearchContext);
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `search=${searchValue}` : "";
     const sortProperty = sortType.sortProperty;
     const order = sortType.order;
-
     setIsLoading(true);
-    
+
     axios
       .get(
         `https://6537fe50a543859d1bb11d97.mockapi.io/pizzas?page=${currentPage}&limit=4&${search}&${category}&sortBy=${sortProperty}&order=${order}`
@@ -51,7 +49,7 @@ const Home = () => {
         </div>
         <h1 className="content__title">Все пиццы</h1>
         <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-        <Pagination onChangePage={(number) => setCurrentPage(number)} />
+        <Pagination />
       </div>
     </>
   );

@@ -1,8 +1,5 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCategoryId } from "../../app/slices/filterSlice"
-
-
 
 function Categories() {
   const categoryId = useSelector((state) => state.filter.categoryId);
