@@ -16,7 +16,7 @@ const Search = () => {
     inputRef.current.focus();
   };
 
-  const onChangeSearchValue = (event) => {
+  const onChangeInput = (event) => {
     setValue(event.target.value);
     updateInput(event.target.value);
   };
@@ -24,8 +24,9 @@ const Search = () => {
   const updateInput = React.useCallback(
     debounce((str) => {
       setSearchValue(str);
-    }, 300),
-    [value]
+      console.log(str);
+    }, 800),
+    []
   );
 
   return (
@@ -43,7 +44,7 @@ const Search = () => {
         ref={inputRef}
         className={styles.input}
         value={value}
-        onChange={onChangeSearchValue}
+        onChange={onChangeInput}
         placeholder="Искать пиццу..."
       />
 
