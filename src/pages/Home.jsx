@@ -46,19 +46,21 @@ const Home = () => {
     isMounted.current = true;
   }, [categoryId, sortType, currentPage]);
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `search=${searchValue}` : "";
     setIsLoading(true);
 
-    axios
-      .get(
+    try {
+      const res = await axios.get(
         `https://6537fe50a543859d1bb11d97.mockapi.io/pizzas?page=${currentPage}&limit=4&${search}&${category}&sortBy=${sortType}&order=${sortOrder}`
-      )
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+      );
+      setItems(res.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   React.useEffect(() => {
@@ -76,7 +78,11 @@ const Home = () => {
         })
       );
 
-      isSearch.current = true;
+      if (categoryId == 0) {
+        isSearch.current = false;
+      } else {
+        isSearch.current = true;
+      }
     }
   }, []);
 
