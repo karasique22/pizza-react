@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import qs from "qs";
 
@@ -13,11 +12,13 @@ import Pagination from "../components/Pagination/Pagination";
 
 import { SearchContext } from "../App";
 import { setFilter } from "../app/slices/filterSlice";
+import { fetchPizzas } from "../app/slices/pizzaSlice";
 
 const Home = () => {
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filter
   );
+  const { items, status } = useSelector((state) => state.pizzas);
   const sortType = sort.sortProperty;
   const sortOrder = sort.order;
 
@@ -28,9 +29,6 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const { searchValue } = React.useContext(SearchContext);
-
-  const [items, setItems] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     if (isMounted.current) {
@@ -46,21 +44,13 @@ const Home = () => {
     isMounted.current = true;
   }, [categoryId, sortType, currentPage]);
 
-  const fetchPizzas = async () => {
+  const getPizzas = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `search=${searchValue}` : "";
-    setIsLoading(true);
 
-    try {
-      const res = await axios.get(
-        `https://6537fe50a543859d1bb11d97.mockapi.io/pizzas?page=${currentPage}&limit=4&${search}&${category}&sortBy=${sortType}&order=${sortOrder}`
-      );
-      setItems(res.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(
+      fetchPizzas({ category, search, currentPage, sortType, sortOrder })
+    );
   };
 
   React.useEffect(() => {
@@ -78,17 +68,13 @@ const Home = () => {
         })
       );
 
-      if (categoryId == 0) {
-        isSearch.current = false;
-      } else {
-        isSearch.current = true;
-      }
+      isSearch.current = true;
     }
   }, []);
 
   React.useEffect(() => {
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     isSearch.current = false;
@@ -106,8 +92,19 @@ const Home = () => {
           <Categories />
           <Sort />
         </div>
-        <h1 className="content__title">Все пиццы</h1>
-        <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+        {status === "error" ? (
+          <div className="content__error-info">
+            <h1>Произошла ошибка 😕</h1>
+            <p>Попробуйте обновить страницу</p>
+          </div>
+        ) : (
+          <>
+            <h1 className="content__title">Все пиццы</h1>
+            <div className="content__items">
+              {status === "loading" ? skeletons : pizzas}
+            </div>
+          </>
+        )}
         <Pagination />
       </div>
     </>
