@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 import logoSvg from "../../assets/img/pizza-logo.svg";
 
 import Search from "../Search/Search";
 
+import { selectCart } from "../../app/slices/cartSlice"
+
 function Header() {
-  const { totalPrice, totalPizzas } = useSelector((state) => state.cart);
+  const { totalPrice, totalPizzas } = useSelector(selectCart);
 
   return (
     <div className="header">
