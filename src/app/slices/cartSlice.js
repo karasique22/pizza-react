@@ -40,7 +40,7 @@ const cartSlice = createSlice({
       );
       state.totalPizzas -= removedItem.count;
       state.items = state.items.filter((obj) => obj.id !== action.payload.id);
-      state.totalPrice -= action.payload.price;
+      state.totalPrice -= action.payload.price * removedItem.count;
     },
     clearCart(state) {
       state.items = [];
@@ -51,6 +51,8 @@ const cartSlice = createSlice({
 });
 
 export const selectCart = (state) => state.cart;
+export const selectCartItem = (itemId) => (state) =>
+  state.cart.items.find((obj) => obj.id === itemId)
 
 export const { addItem, removeItem, removeAllItems, clearCart } =
   cartSlice.actions;

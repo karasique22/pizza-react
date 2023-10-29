@@ -10,7 +10,7 @@ function Cart() {
   const dispatch = useDispatch();
   const { items, totalPrice, totalPizzas } = useSelector(selectCart);
 
-  if(totalPrice == 0) {
+  if(totalPrice === 0) {
     return <CartEmpty />
   }
 
