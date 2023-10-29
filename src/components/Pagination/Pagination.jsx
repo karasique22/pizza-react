@@ -8,6 +8,8 @@ import styles from "./Pagination.module.scss";
 const Pagination = () => {
   const dispatch = useDispatch();
 
+  // FIXME: Pagination does not work properly after reloading
+
   return (
     <ReactPaginate
       className={styles.root}
