@@ -11,7 +11,8 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem(state, action) {
-      const findItem = state.items.find((obj) => obj.id === action.payload.id);
+      const { id, price } = action.payload;
+      const findItem = state.items.find((obj) => obj.id === id);
 
       if (findItem) {
         findItem.count++;
@@ -19,28 +20,28 @@ const cartSlice = createSlice({
         state.items.push({ ...action.payload, count: 1 });
       }
 
-      state.totalPrice += action.payload.price;
-      state.totalPizzas += 1;
+      state.totalPrice += price;
+      state.totalPizzas++;
     },
     removeItem(state, action) {
-      const findItem = state.items.find((obj) => obj.id === action.payload.id);
+      const { id, price } = action.payload;
+      const findItem = state.items.find((obj) => obj.id === id);
 
-      if (findItem.count == 1) {
-        state.items = state.items.filter((obj) => obj.id !== action.payload.id);
+      if (findItem.count === 1) {
+        state.items = state.items.filter((obj) => obj.id !== id);
       } else {
         findItem.count--;
       }
 
-      state.totalPrice -= action.payload.price;
-      state.totalPizzas -= 1;
+      state.totalPrice -= price;
+      state.totalPizzas--;
     },
     removeAllItems(state, action) {
-      const removedItem = state.items.find(
-        (obj) => obj.id === action.payload.id
-      );
+      const { id, price } = action.payload;
+      const removedItem = state.items.find((obj) => obj.id === id);
       state.totalPizzas -= removedItem.count;
-      state.items = state.items.filter((obj) => obj.id !== action.payload.id);
-      state.totalPrice -= action.payload.price * removedItem.count;
+      state.items = state.items.filter((obj) => obj.id !== id);
+      state.totalPrice -= price * removedItem.count;
     },
     clearCart(state) {
       state.items = [];
@@ -52,7 +53,7 @@ const cartSlice = createSlice({
 
 export const selectCart = (state) => state.cart;
 export const selectCartItem = (itemId) => (state) =>
-  state.cart.items.find((obj) => obj.id === itemId)
+  state.cart.items.find((obj) => obj.id === itemId);
 
 export const { addItem, removeItem, removeAllItems, clearCart } =
   cartSlice.actions;
