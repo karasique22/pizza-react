@@ -69,6 +69,8 @@ const Home = () => {
     }
   }, []);
 
+  // FIXME: no fetch on reload with initial parameters with params in URL
+
   React.useEffect(() => {
     if (!isSearch.current) {
       getPizzas();
