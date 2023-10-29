@@ -10,12 +10,11 @@ import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
 import Skeleton from "../components/Skeleton/Skeleton";
 import Pagination from "../components/Pagination/Pagination";
 
-import { SearchContext } from "../App";
 import { setFilter } from "../app/slices/filterSlice";
 import { fetchPizzas } from "../app/slices/pizzaSlice";
 
 const Home = () => {
-  const { categoryId, sort, currentPage } = useSelector(
+  const { categoryId, sort, currentPage, searchValue } = useSelector(
     (state) => state.filter
   );
   const { items, status } = useSelector((state) => state.pizzas);
@@ -27,8 +26,6 @@ const Home = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { searchValue } = React.useContext(SearchContext);
 
   React.useEffect(() => {
     if (isMounted.current) {
