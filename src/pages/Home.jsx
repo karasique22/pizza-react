@@ -52,6 +52,7 @@ const Home = () => {
 
   React.useEffect(() => {
     if (window.location.search) {
+      // TODO: change window.location to useSearchParams dom hook
       const params = qs.parse(window.location.search.substring(1));
 
       const sort = sortTypes.find(
